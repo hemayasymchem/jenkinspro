@@ -1,1 +1,1129 @@
-121212
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1315279_71c27jvyc03.css">
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="https://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://cdn.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <!-- <script src="https://cdn.highcharts.com.cn/highcharts/modules/series-label.js"></script> -->
+    <script src="https://cdn.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
+    <script src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <title>运营日报</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        #customchart,
+        #tradechart,
+        #incomechart,
+        #indchart,
+        #serchart,
+        #pricechart {
+            height: auto !important
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 内容 -->
+    <div style="width: 100%; margin: 0;">
+        <ul style="width: 100%;font-size: 28px;max-width: 800px;margin: 0 auto;" align="center">
+            <!-- title -->
+            <li style="height: 4.11em;">
+                <div background="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/daily-back.png"
+                    style="background-repeat: no-repeat;background-size: 100% 100%">
+                    <div
+                        style="background: url('https://daliy-email-image.oss-cn-beijing.aliyuncs.com/daily-back.png');background-size: 100% 100%;padding-top: 1.2em;padding-bottom: 1em;">
+                        <div
+                            style="font-weight: bold;font-size: 0.824em;line-height: 1.014em;color: #fff;text-align: center;">
+                            药聚汇运营日报</div>
+                        <div
+                            style="font-size: 0.438em;line-height: 0.483em;color: #D6E7FF;text-align: center;padding-top: 1.1em;">
+                           <span id="yesterday"></span> 
+                           <em style="font-style: normal;">18:</em>
+                           <em style="font-style: normal;">00:</em>
+                           <em style="font-style: normal;">01</em>
+                            至 <span id="today"></span> 
+                            <em style="font-style: normal;">18:</em>
+                            <em style="font-style: normal;">00:</em>
+                            <em style="font-style: normal;">00</em>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="table-content-td">
+                    <!-- 客户情况 -->
+                    <div style="padding: 0.7em 0 0;font-family:PingFangSC-Regular,PingFang SC;color:#5D6F80;">
+                        <!-- 统计 -->
+                        <div class="mock-table-ul" style="display: table; width: 99.9%;" border="0" cellpadding="0" cellspacing="0">
+                            <div class="mock-table-li" style="display: table-row;height: 0.18em;line-height: 0.18em;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;text-align: left; color: #3385F2;font-size: 0.583em;font-weight: bold;height: 0.845em;line-height: 0.845em;padding-bottom: 1em;padding-top: 0.4em;margin-bottom: 0.63em; border-bottom: 1px solid #ddeaf6;">
+                                    客户情况
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 本月客户走势 -->
+                        <canvas id="customchart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="customchartimg" style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <ul class="mock-table-ul" id="custable"
+                            style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;"
+                            border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;width: 100%; box-sizing: border-box;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 17%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    会员类型
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    今日订单
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    本月订单
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    本年订单
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 17%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    存量用户
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="table-content-td">
+                    <!-- 交易情况 -->
+                    <div style="padding: 0.7em 0 0;font-family:PingFangSC-Regular,PingFang SC;color:#5D6F80;">
+                        <div class="mock-table-ul" style="display: table; width: 99.9%;" border="0" cellpadding="0" cellspacing="0">
+                            <div class="mock-table-li" style="display: table-row;height: 0.18em;line-height: 0.18em;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;text-align: left; color: #3385F2;font-size: 0.583em;font-weight: bold;height: 0.845em;line-height: 0.845em;padding-bottom: 1em;padding-top: 0.4em;margin-bottom: 0.63em; border-bottom: 1px solid #ddeaf6;">
+                                    交易情况
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 本月交易走势 -->
+                        <canvas id="tradechart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="tradechartimg"
+                                style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <div style="text-align: right; font-size: 0.46em;">单位: 万元</div>
+                        <ul class="mock-table-ul" id="tradetable" style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;" border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 16%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    类型
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    日累计
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    月累计
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    当年累计
+                                </div>
+                            </li>
+                        </ul>
+
+                        <!-- 本月收入走势 -->
+                        <canvas id="incomechart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="incomechartimg"
+                                style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <div style="text-align: right; font-size: 0.46em;">单位: 万元</div>
+                        <ul class="mock-table-ul" id="incometable" style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;" border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 16%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    类型
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    日累计
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    月累计
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;word-break: break-all">
+                                    当年累计
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="table-content-td">
+                    <!-- 沉淀情况 -->
+                    <div style="padding: 0.7em 0 0;font-family:PingFangSC-Regular,PingFang SC;color:#5D6F80;">
+                        <div class="mock-table-ul" style="display: table; width: 99.9%;" border="0" cellpadding="0" cellspacing="0">
+                            <div class="mock-table-li" style="display: table-row;height: 0.18em;line-height: 0.18em;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;text-align: left; color: #3385F2;font-size: 0.583em;font-weight: bold;height: 0.845em;line-height: 0.845em;padding-bottom: 1em;padding-top: 0.4em;margin-bottom: 0.63em; border-bottom: 1px solid #ddeaf6;">
+                                    沉淀情况
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 工业沉淀情况 -->
+                        <div style="text-align: left; font-weight: bold; margin: 1em 0 1em 0em; font-size: 0.46em;">客户沉淀情况</div>
+                        <canvas id="indchart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="indchartimg"
+                                style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <div style="text-align: left; margin-top: 1em; margin-bottom: 1em; font-size:0.46em; display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">工业沉淀明细</span>
+                            <span><a style="color: #0099FF;" id="indmore">更多></a></span>
+                        </div>
+                        <ul class="mock-table-ul" id="indtable"
+                            style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;"
+                            border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;">
+                                <div  style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    公司名称
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更前
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更后
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更时间
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- 服务商沉淀情况 -->
+                        <canvas id="serchart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="serchartimg"
+                                style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <div style="text-align: left; margin-top: 1em; margin-bottom: 1em; font-size: 0.46em; display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">服务商沉淀明细</span>
+                            <span><a style="color: #0099FF;" id="sermore">更多></a></span>
+                        </div>
+                        <ul class="mock-table-ul" id="sertable"
+                            style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;"
+                            border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    公司名称
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更前
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 22%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更后
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 28%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    变更时间
+                                </div>
+                            </li>
+                        </ul>
+
+                        <!-- 资金沉淀情况 -->
+                        <div style="text-align: left; font-weight: bold; margin: 1em 0 1em 0em; font-size: 0.46em;">资金沉淀情况</div>
+                        <canvas id="pricechart" style="display: none;"></canvas>
+                        <div style="width: 100%;">
+                            <img class="targetimg" id="pricechartimg"
+                                style="display: inline-block; width: 100%; height: auto; margin: 0 auto;"></img>
+                        </div>
+                        <div style="text-align: left; margin-top:1em; margin-bottom: 1em; font-size: 0.46em; display:flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">资金沉淀明细</span>
+                            <span><a id="zijinmore" style="color: #0099FF;">更多></a></span>
+                        </div>
+                        <div style="text-align: right; font-size: 0.46em;">单位: 万元</div>
+                        <ul class="mock-table-ul" id="pricetable"
+                            style="display: table; width: 99.9%;line-height:1.5em;margin-top: 0.241em;margin-bottom: 0.483em;font-size: 0.46em;padding: 0;border-top: 1.0px solid #ddeaf6;border-right: 1.0px solid #ddeaf6;"
+                            border="0" cellpadding="0" cellspacing="0">
+                            <li class="mock-table-li" style="display: table-row;">
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 24%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    公司名称
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 19%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    付款余额
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 19%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    收款余额
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 19%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    冻结金额
+                                </div>
+                                <div style="display: table-cell; vertical-align: middle; text-align: left;white-space: nowrap;text-align:left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;width: 19%;background: #F4F7F9;padding: 0.3em 0.4em;font-weight: bold;height: 36px;">
+                                    合计金额
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>
+<script id="script1">
+    // 设置canvas默认高度 begin
+    // const domWidth = document.body.offsetWidth
+    // $('canvas#customchart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66) // 1.5倍
+    // $('canvas#tradechart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66)
+    // $('canvas#incomechart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66)
+    // $('canvas#indchart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66)
+    // $('canvas#serchart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66)
+    // $('canvas#pricechart').width(domWidth * 0.3).height(domWidth * 0.3 * 0.66)
+    $('canvas#customchart').width(666).height(444)
+    $('canvas#tradechart').width(666).height(444)
+    $('canvas#incomechart').width(666).height(444)
+    $('canvas#indchart').width(666).height(444)
+    $('canvas#serchart').width(666).height(444)
+    $('canvas#pricechart').width(666).height(444)
+    // 设置canvas默认高度 end
+    // function flexible() {
+    //     var deviceWidth = $('#customchartimg').width()
+    //     $('.targetimg').css('height', deviceWidth * 0.67 + 'px')
+    // }
+    // window.addEventListener('resize', function () {
+    //     flexible();
+    // }, false);
+    // window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", flexible, false);
+
+    // flexible()
+    const colorMap = [
+        ['#2679F1', '#0CC889', '#FFBB26', '#FF6161', '#667797', '#F77575', '#EB7F65', '#B170ED', '#F3AE6B', '#7A82E6', '#8ECA6E', '#EBA465', '#65B5EB'],
+        ['#6295F9', '#62DAAC', '#667797', '#F6C124', '#EB7F65', '#65B5EB', '#B170ED', '#F3AE6B', '#7A82E6', '#8ECA6E', '#F77575', '#EBA465'],
+        ['#62DAAC', '#667797', '#F6C124', '#EB7F65', '#6295F9', '#B170ED', '#F3AE6B', '#7A82E6', '#8ECA6E', '#F77575', '#EBA465', '#65B5EB'],
+        ['#F6C124', '#EB7F65', '#6295F9', '#62DAAC', '#B170ED', '#667797', '#F3AE6B', '#7A82E6', '#8ECA6E', '#F77575', '#EBA465', '#65B5EB'],
+        ['#F77575', '#F6C124', '#667797', '#6295F9', '#B170ED', '#62DAAC', '#F3AE6B', '#7A82E6', '#8ECA6E', '#EB7F65', '#EBA465', '#65B5EB'],
+        ['#0CC889', '#2679F1', '#FFBB26', '#667797', '#B170ED'], // 折线图
+        ['#667797', '#FFBB26', '#FF6161', '#2679F1', '#0CC889'] // 饼图: 丢失 流失 忠诚 沉默 活跃
+    ]
+
+    const pieColor = {
+        '丢失客户': '#667797', '即将流失': '#FFBB26', '忠诚客户':'#FF6161', '沉默客户':'#2679F1', '活跃客户':'#0CC889'
+    }
+
+    const baseAPI = window.location.href.includes('//101.201.122.33/') ? 'http://daliy.pharmconverge.com/' : 'http://182.92.220.176:8094/'
+    // const baseAPI = window.location.href.includes('//101.201.122.33/') ? 'http://daliy.pharmconverge.com/' : 'http://daliy.pharmconverge.com/'
+    const tmpArr = window.location.search.slice(1).split('&')
+    const tmpObj = {} // 浏览器参数集合
+    tmpArr.forEach(str => {
+      let arr = str.split('=')
+      tmpObj[arr[0]] = arr[1]
+    })
+    const date = tmpObj['date']
+    const yesterday = tmpObj['yesterday'].split('-')
+    const month = date.split('-')[1]
+    const day = date.split('-')[2]
+
+    const templateYes = `<em style="font-style: normal;">${yesterday[0]}-</em><em style="font-style: normal;">${yesterday[1]}-</em><em style="font-style: normal;">${yesterday[2]}</em>`
+    $('#yesterday').html(templateYes)
+    const todayarr= date.split('-')
+    const templateTod = `<em style="font-style: normal;">${todayarr[0]}-</em><em style="font-style: normal;">${todayarr[1]}-</em><em style="font-style: normal;">${todayarr[2]}</em>`
+    $('#today').html(templateTod)
+
+    const sourceType = tmpObj.sourceType || '' // 不一定有
+    var sign = null // 签名
+    const baseUrl = 'http://101.201.103.211/report/detail.html' // a标签跳转域名
+
+    // 处理更多 a 标签跳转地址
+    function handleMoreHref() {
+        $('#indmore').attr('href', `${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=1&pagetype=ind`) // type:1 工业
+        $('#sermore').attr('href', `${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=2&pagetype=ser`) // type:2 服务商
+        $('#zijinmore').attr('href', `${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&pagetype=zijin`)
+    }
+    /**
+     * 接口状态
+     **/
+
+    const pageApiStatus = {
+        'custom': '', // success error
+        'trade': '',
+        'income': '',
+        'ind': '',
+        'price': ''
+    }
+    
+    function checkPageStatus() {
+        if (Object.values(pageApiStatus).includes('error')) {
+            window.status = '0' // 有接口返回错误
+        } else {
+            if (Object.values(pageApiStatus).every(value => {
+                return value === 'success'
+            })) {
+                $('canvas').each(function () {
+                    $(this).remove()
+                })
+                $('script').each(function() {
+                    $(this).remove()
+                })
+                window.status = '1' // 全部成功返回1
+            }
+        }
+    }
+    // 测试获取签名
+    $.get(`${baseAPI}/运营日报/sign?date=${date}`, function(res) {
+        sign = res
+        handleMoreHref()
+        drawPriceChart()
+    })
+
+    // drawSerChart() 两个沉淀用一个方法
+    // drawPriceChart()
+    
+    function convertCanvas(canvas) {
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        return image
+    }
+
+    function drawCustomChart() { // 客户趋势图
+        var methodurl = sourceType ? `${baseAPI}/运营日报/客户情况?date=${date}&sourceType=${sourceType}&sign=${sign}` : `${baseAPI}/运营日报/客户情况?date=${date}&sign=${sign}`
+        $.get(methodurl, function (res) {
+            if (res.code === 0) {
+                const userTypes = {
+                    '免费会员': '1',
+                    '初级会员': '2',
+                    '中级会员': '3',
+                    '高级会员': '4'
+                }
+                res.data["明细列表"]['表格数据'].forEach(obj => {
+                    // <a href="http://www.baidu.com" style="color: #0099.9FF">${obj.day}</a>
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj.hyLevel}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            <a style="color:#0099FF"
+                              href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&userType=${userTypes[obj.hyLevel]}&dateType=1&pagetype=member'
+                            >${obj.dayCount}</a>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            <a style="color:#0099FF"
+                              href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&userType=${userTypes[obj.hyLevel]}&dateType=2&pagetype=member'
+                            >${obj.monthCount}</a>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            <a style="color:#0099FF"
+                              href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&userType=${userTypes[obj.hyLevel]}&dateType=3&pagetype=member'
+                            >${obj.yearCount}</a>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            <a style="color:#0099FF"
+                              href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&userType=${userTypes[obj.hyLevel]}&dateType=4&pagetype=custom'
+                            >${obj.historyCount}</a>
+                        </div>
+                    </li>`).appendTo($('#custable'))
+                })
+                $(`<li class="mock-table-li" style="display: table-row;width:100%;">
+                    <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px; width: 17%;word-break: break-all">
+                        总收入(万元)
+                    </div>
+                    <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px; width: 22%;word-break: break-all">
+                        ${res.data["明细列表"]['今日订单收入']}
+                    </div>
+                    <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px; width: 22%;word-break: break-all">
+                        ${res.data["明细列表"]['本月订单收入']}
+                    </div>
+                    <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px; width: 22%;word-break: break-all">
+                        ${res.data["明细列表"]['本年订单收入']}
+                    </div>
+                    <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px; width: 17%;word-break: break-all">
+                    </div>
+                </li>`).appendTo($('#custable'))
+                //  处理chart数据
+                let seriesData = []
+                let categories = null
+                Object.keys(res.data["图表数据"]).forEach((key, index) => {
+                    if (index === 0) {
+                        let length = Object.keys(res.data["图表数据"][key]).length
+                        categories = new Array(length)
+                        categories.fill('', 0, length)
+                        categories[Number(day)-1] = `${Number(month)}.${Number(day)}`
+                    }
+                    const fakeData = Object.values(res.data["图表数据"][key]).map((value, index) => {
+                        if (index + 1 <= day) {
+                            return value
+                        } else if (index * 1 === day * 1) {
+                            return null
+                        } else {
+                            return null
+                        }
+                    })
+                    const data = {
+                        name: key,
+                        data: fakeData,
+                        marker: {
+                            enabled: true,
+                            symbol: 'circle'
+                        }
+                    }
+                    seriesData.push(data)
+                })
+                let options = {
+                    chart: {
+                        type: 'spline'
+                    },
+                    colors: colorMap[5],
+                    title: {
+                        text: '本月客户走势',
+                        align: 'left',
+                        x: 20,
+                        style: {
+                            'font-size': '1em'
+                        }
+                    },
+                    legend: {
+                        verticalAlign: 'top'
+                        // symbolPadding: 20,
+			            // symbolWidth: 50
+                    },
+                    xAxis: {
+                        crosshair: {
+                            color: '#006cee',
+                            width: 1
+                        },
+                        categories: categories,
+                        plotLines: [{
+                            value: day - 1,
+                            color: '#e5e9eb',
+                            width: 1,
+                            id: 'plot-line-1'
+                        }],
+                        labels: {
+                            step: 1
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: '数量',
+                            rotation: -90
+                        },
+                        min: 0,
+                        minRange: 5,
+                        tickAmount: 4
+                    },
+                    series: seriesData,
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let customchart1 = Highcharts.chart('customchart', options)
+                var customchartData = customchart1.getSVG();
+                canvg(customchart, customchartData);
+                var imageData = convertCanvas(customchart).src
+                $('#customchartimg').attr('src',imageData);
+                pageApiStatus['custom'] = 'success'
+            } else {
+                pageApiStatus['custom'] = 'error'
+            }
+            checkPageStatus()
+            drawTradeChart()
+            drawIncomeChart()
+            drawIndChart()
+        })
+    }
+
+    function drawTradeChart() { // 本月交易走势
+        var methodurl = sourceType ? `${baseAPI}/运营日报/本月交易走势?date=${date}&sourceType=${sourceType}&sign=${sign}` : `${baseAPI}/运营日报/本月交易走势?date=${date}&sign=${sign}`
+        $.get(methodurl, function (res) {
+            if (res.code === 0) {
+                const tableData = res.data['明细列表']
+                const tableArr = []
+                Object.keys(tableData).forEach(name => {
+                    const obj = tableData[name]
+                    obj.name = name
+                    tableArr.push(obj)
+                })
+                const chartData = res.data['图表数据']
+                const Types = {
+                    '充值': '1',
+                    '交易': '2',
+                    '提现': '3'
+                }
+                const pageTypes = {
+                    '充值': 'charge',
+                    '交易': 'trade',
+                    '提现': 'encharge'
+                }
+                // <a href="http://www.baidu.com" style="color: #0099.9FF">${obj.day}</a></br>
+                tableArr.forEach(obj => {
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj.name}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=1&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['日累计元'] === '' ? '--' : Number(obj['日累计元']) === 0 ? '0.00' : obj['日累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['日趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['日趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all;margin-left: -4px;">${obj['较昨天'] === '' ? '--' : obj['较昨天']}</span>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=2&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['月累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['月趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['月趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all;margin-left: -4px;">${obj['较上月'] === '' ? '--' : obj['较上月']}</span>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=3&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['年累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['年趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['年趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all; margin-left: -4px;">${obj['较上年'] === '' ? '--' : obj['较上年']}</span>
+                        </div>
+                    </li>`).appendTo($('#tradetable'))
+                })
+                //  处理chart数据
+                let seriesData = []
+                let categories = null
+                Object.keys(chartData).forEach((key, index) => {
+                    if (index === 0) {
+                        let length = Object.keys(chartData[key]).length
+                        categories = new Array(length)
+                        categories.fill('', 0, length)
+                        categories[Number(day)-1] = `${Number(month)}.${Number(day)}`
+                    }
+                    const fakeData = Object.values(chartData[key]).map((value, index) => {
+                        if (index + 1 <= day) {
+                            return value
+                        } else if (index * 1 === day * 1) {
+                            return null
+                        } else {
+                            return null
+                        }
+                    })
+                    const data = {
+                        name: key,
+                        data: fakeData,
+                        marker: {
+                            enabled: true,
+                            symbol: 'circle'
+                        }
+                    }
+                    seriesData.push(data)
+                })
+                let options = {
+                    chart: {
+                        type: 'spline'
+                    },
+                    colors: ['#0CC889', '#2679F1', '#667797'],
+                    title: {
+                        text: '本月交易走势',
+                        align: 'left',
+                        x: 20,
+                        style: {
+                            'font-size': '1em'
+                        }
+                    },
+                    legend: {
+                        verticalAlign: 'top'
+                    },
+                    xAxis: {
+                        categories: categories,
+                        plotLines: [{
+                            value: day - 1,
+                            color: '#e5e9eb',
+                            width: 1,
+                            id: 'plot-line-2'
+                        }],
+                        labels: {
+                            step: 1
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: '金额  万元',
+                            rotation: -90
+                        },
+                        min: 0,
+                        minRange: 5,
+                        tickAmount: 4
+                    },
+                    series: seriesData,
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let tradechart1 = Highcharts.chart('tradechart', options)
+                var tradechartData = tradechart1.getSVG();
+                canvg(tradechart, tradechartData);
+                var imageData = convertCanvas(tradechart).src
+                $('#tradechartimg').attr('src', imageData);
+                pageApiStatus['trade'] = 'success'
+            } else {
+                pageApiStatus['trade'] = 'error'
+            }
+            checkPageStatus()
+        })
+    }
+
+    function drawIncomeChart() { // 本月收入走势
+        var methodurl = sourceType ? `${baseAPI}/运营日报/本月收入走势?date=${date}&sourceType=${sourceType}$sign=${sign}` : `${baseAPI}/运营日报/本月收入走势?date=${date}&sign=${sign}`
+        $.get(methodurl, function (res) {
+            if (res.code === 0) {
+                const tableData = res.data['明细列表']
+                const tableArr = []
+                Object.keys(tableData).forEach(name => {
+                    const obj = tableData[name]
+                    obj.name = name
+                    tableArr.push(obj)
+                })
+                const chartData = res.data['图表数据']
+                const Types = {
+                    '服务费': '1',
+                    '会议室': '2',
+                    '会议场次': '3',
+                    '调研次数': '4',
+                    '调研报告': '5'
+                }
+                const pageTypes = {
+                    '服务费': 'fuwu',
+                    '会议室': 'meeting',
+                    '会议场次': 'meettime',
+                    '调研次数': 'diaoyannum',
+                    '调研报告': 'diaoyan'
+                }
+                tableArr.forEach(obj => {
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj.name}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=1&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['日累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['日趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['日趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all;margin-left: -4px;">${obj['较昨天'] === '' ? '--' : obj['较昨天']}</span>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=2&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['月累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['月趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['月趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all;margin-left: -4px;">${obj['较上月'] === '' ? '--' : obj['较上月']}</span>
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;">
+                            <div style="word-break: break-all">
+                                <a style="color: #0099FF;"
+                                    href='${baseUrl}?date=${date}&sourceType=${sourceType}&sign=${sign}&type=${Types[obj.name]}&dateType=3&pagetype=${pageTypes[obj.name]}'
+                                >
+                                    ${obj['年累计元']}
+                                </a>
+                            </div>
+                            <img style="display: ${obj['年趋势']?'inline-block':'none'};margin: 0 0.048em;width: 1.2em;height: 1.2em;line-height: 1;vertical-align: middle;margin-left: -4px;" src="https://daliy-email-image.oss-cn-beijing.aliyuncs.com/${obj['年趋势']}.png" alt="趋势">
+                            <span style="word-break: break-all;margin-left: -4px;">${obj['较上年'] === '' ? '--' : obj['较上年']}</span>
+                        </div>
+                    </li>`).appendTo($('#incometable'))
+                })
+                //  处理chart数据
+                let seriesData = []
+                let categories = null
+                Object.keys(chartData).forEach((key, index) => {
+                    if (index === 0) {
+                        let length = Object.keys(chartData[key]).length
+                        categories = new Array(length)
+                        categories.fill('', 0, length)
+                        categories[Number(day)-1] = `${Number(month)}.${Number(day)}`
+                    }
+                    const fakeData = Object.values(chartData[key]).map((value, index) => {
+                        if (index + 1 <= day) {
+                            return value
+                        } else if (index * 1 === day * 1) {
+                            return null
+                        } else {
+                            return null
+                        }
+                    })
+                    const data = {
+                        name: key,
+                        data: fakeData,
+                        marker: {
+                            enabled: true,
+                            symbol: 'circle'
+                        }
+                    }
+                    seriesData.push(data)
+                })
+                let options = {
+                    chart: {
+                        type: 'spline'
+                    },
+                    colors: ['#0CC889', '#2679F1', '#FFBB26', '#B170ED', '#667797'],
+                    title: {
+                        text: '本月交易走势',
+                        align: 'left',
+                        x: 20,
+                        style: {
+                            'font-size': '1em'
+                        }
+                    },
+                    legend: {
+                        verticalAlign: 'top'
+                    },
+                    xAxis: {
+                        categories: categories,
+                        plotLines: [{
+                            value: day - 1,
+                            color: '#e5e9eb',
+                            width: 1,
+                            id: 'plot-line-3'
+                        }],
+                        labels: {
+                            step: 1
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: '金额  万元',
+                            rotation: -90
+                        },
+                        min: 0,
+                        minRange: 5,
+                        tickAmount: 4
+                    },
+                    series: seriesData,
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let incomechart1 = Highcharts.chart('incomechart', options)
+                var incomechartData = incomechart1.getSVG();
+                canvg(incomechart, incomechartData);
+                var imageData = convertCanvas(incomechart).src
+                $('#incomechartimg').attr('src', imageData);
+                pageApiStatus['income'] = 'success'
+            } else {
+                pageApiStatus['income'] = 'success'
+            }
+            checkPageStatus()
+        })
+    }
+
+    function drawIndChart() { // 工业沉淀环形图
+        var methodurl = sourceType ? `${baseAPI}/运营日报/客户沉淀情况?date=${date}&limitSize=5&sourceType=${sourceType}&sign=${sign}` : `${baseAPI}/运营日报/客户沉淀情况?date=${date}&limitSize=5&sign=${sign}`
+        $.get(methodurl, function(res) {
+            if (res.code == 0) {
+                const indTableData = res['data']['工业沉淀情况']['明细列表']
+                const indChartData = res['data']['工业沉淀情况']['图表数据']
+                const serTableData = res['data']['服务商沉淀情况']['明细列表']
+                const serChartData = res['data']['服务商沉淀情况']['图表数据']
+                indTableData.forEach(obj => {
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['公司名称']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更前']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更后']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更时间'] ? obj['变更时间'] : ''}
+                        </div>
+                    </li>`).appendTo($('#indtable'))
+                })
+                serTableData.forEach(obj => {
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['公司名称']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更前']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更后']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['变更时间'] ? obj['变更时间'] : ''}
+                        </div>
+                    </li>`).appendTo($('#sertable'))
+                })
+                // 工业沉淀图表
+                let indSum = 0
+                const indData = []
+                Object.keys(indChartData).forEach(name => {
+                    indSum += Number(indChartData[name])
+                    let obj = {
+                        name: name,
+                        y: indChartData[name],
+                        color: pieColor[name]
+                    }
+                    indData.push(obj)
+                })
+                let options = {
+                    chart: {
+                        type: 'circle'
+                    },
+                    // colors: colorMap[6],
+                    title: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        // text: `<div style="font-size:18px;text-align:center;">${totalData}</div><br/>
+                        //       <div style="color:gray;font-size:18px;text-align:center;">工业</div>`,
+                        text: `<div style="color: red; font-size: 24px;">${indSum}</div>`,
+                        y: 10,
+                        x: 0, // 需要动态啊
+                        useHTML: true
+                    },
+                    subtitle: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        text: `<div style="font-size: 20px;margin-top: 5px;">工业</div>`,
+                        x: 0,
+                        y: 30,
+                        useHTML: true
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    series: [{
+                        type: 'pie',
+                        innerSize: '80%',
+                        name: '数量',
+                        data: indData,
+                        dataLabels: {
+                            formatter: function (params) {
+                                const y = this.point.y;
+                                const percentage = this.percentage.toFixed(2);
+                                return `
+                            <div style="text-align:center;font-size:16px;font-weight:normal;">${this.point.name}</div><br/>
+                            <div style="font-size:4px; color: transparent;">1</div><br/>
+                            <div>
+                            <span style="font-size:16px;">${y}</span>
+                            <span style="color:rgba(0, 0, 0, .7);font-size:16px;">(${percentage}%)</span>
+                            </div>
+                        `;
+                            }
+                        }
+                    }],
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let indchart1 = Highcharts.chart('indchart', options)
+                var indchartData = indchart1.getSVG();
+                canvg(indchart, indchartData);
+                var imageData = convertCanvas(indchart).src
+                $('#indchartimg').attr('src', imageData);
+
+                // 服务商沉淀图
+                let serSum = 0
+                const serData = []
+                Object.keys(serChartData).forEach(name => {
+                    serSum += Number(serChartData[name])
+                    let obj = {
+                        name: name,
+                        y: serChartData[name],
+                        color: pieColor[name]
+                    }
+                    serData.push(obj)
+                })
+                let options2 = {
+                    chart: {
+                        type: 'circle'
+                    },
+                    // colors: colorMap[6],
+                    title: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        // text: `<div style="font-size:18px;text-align:center;">${totalData}</div><br/>
+                        //       <div style="color:gray;font-size:18px;text-align:center;">工业</div>`,
+                        text: `<div style="color: red; font-size: 24px;">${serSum}</div>`,
+                        y: 10,
+                        x: 0, // 需要动态啊
+                        useHTML: true
+                    },
+                    subtitle: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        text: `<div style="font-size: 20px;margin-top: 5px;">服务商</div>`,
+                        x: 0,
+                        y: 30,
+                        useHTML: true
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    series: [{
+                        type: 'pie',
+                        innerSize: '80%',
+                        name: '数量',
+                        data: serData,
+                        dataLabels: {
+                            formatter: function (params) {
+                                const y = this.point.y;
+                                const percentage = this.percentage.toFixed(2);
+                                return `
+                                    <div style="text-align:center;font-size:16px;font-weight:normal;">${this.point.name}</div><br/>
+                                    <div style="font-size:4px; color: transparent;">1</div><br/>
+                                    <div>
+                                    <span style="font-size:16px;">${y}</span>
+                                    <span style="color:rgba(0, 0, 0, .7);font-size:16px;">(${percentage}%)</span>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }],
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let serchart1 = Highcharts.chart('serchart', options2)
+                var serchartData = serchart1.getSVG();
+                canvg(serchart, serchartData);
+                var imageData = convertCanvas(serchart).src
+                $('#serchartimg').attr('src', imageData);
+                pageApiStatus['ind'] = 'success'
+            } else {
+                pageApiStatus['ind'] = 'error'
+            }
+            checkPageStatus()
+        })
+    }
+    function drawPriceChart() {
+        var methodurl = sourceType ? `${baseAPI}/运营日报/资金沉淀情况?date=${date}&limitSize=5&sourceType=${sourceType}&sign=${sign}` : `${baseAPI}/运营日报/资金沉淀情况?date=${date}&limitSize=5&sign=${sign}`
+        $.get(methodurl, function (res) {
+            if (res.code === 0) {
+                let tableData = res.data['会员子账户']
+                tableData.forEach(obj => {
+                    $(`<li class="mock-table-li" style="display: table-row;">
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['公司名称']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['付款余额']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['收款余额']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['冻结金额']}
+                        </div>
+                        <div style="display: table-cell; vertical-align: middle; text-align: left;border-left: 1.0px solid #ddeaf6;border-bottom: 1.0px solid #ddeaf6;padding: 0.3em 0.4em;color: #748BA3;height: 36px;word-break: break-all">
+                            ${obj['合计金额']}
+                        </div>
+                    </li>`).appendTo($('#pricetable'))
+                })
+                const chartDataPrice = res.data['功能子账户'].map(obj => {
+                    return {
+                        name: obj['账户名称'],
+                        y: Number(obj['金额']),
+                        xxx: obj['金额含千分位']
+                    }
+                })
+                let totalData = res.data['总金额']
+                let options = {
+                    chart: {
+                        type: 'circle'
+                    },
+                    colors: colorMap[6],
+                    title: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        text: `<div style="color: red; font-size: 24px;">${totalData}</div>`,
+                        y: 0,
+                        x: 0, // 需要动态啊
+                        useHTML: true
+                    },
+                    subtitle: {
+                        floating: true,
+                        verticalAlign: 'middle',
+                        text: `<div style="font-size: 20px;margin-top: 5px;">总金额（万元）</div>`,
+                        x: 0,
+                        y: 20,
+                        useHTML: true
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    series: [{
+                        type: 'pie',
+                        innerSize: '80%',
+                        name: '数量',
+                        data: chartDataPrice,
+                        dataLabels: {
+                            formatter: function (params) {
+                                const y = this.point.xxx;
+                                const percentage = this.percentage.toFixed(2);
+                                return `
+                            <div style="text-align:center;font-size:16px;font-weight:normal;">${this.point.name}</div><br/>
+                            <div style="font-size:4px; color: transparent;">1</div><br/>
+                            <div>
+                            <span style="font-size:16px;">${y}</span>
+                            <span style="color:rgba(0, 0, 0, .7);font-size:16px;">(${percentage}%)</span>
+                            </div>
+                        `;
+                            }
+                        }
+                    }],
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+                let pricechart1 = Highcharts.chart('pricechart', options)
+                var pricechartData = pricechart1.getSVG();
+                canvg(pricechart, pricechartData);
+                var imageData = convertCanvas(pricechart).src
+                $('#pricechartimg').attr('src', imageData);
+                pageApiStatus['price'] = 'success'
+            } else {
+                pageApiStatus['price'] = 'error'
+            }
+            checkPageStatus()
+            drawCustomChart() // 生成客户趋势图
+        })
+    }
+</script>
